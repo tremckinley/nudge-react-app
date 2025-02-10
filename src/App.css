@@ -1,3 +1,6 @@
+@import "tailwindcss";
+
+
 body {
     padding: 10px;
     background-color: lavender;

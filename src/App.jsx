@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import './App.css'
+import FlashCard from './FlashCard/FlashCard'
+import FlashCardContainer from './FlashCard/FlashCardContainer'
 
 function App() {
 
@@ -13,7 +15,9 @@ function App() {
       <image id="nudge" src="./icons/nudge.png" />
     </header>
     <section>
-      
+      <FlashCardContainer>
+        <FlashCard />
+      </FlashCardContainer>
     </section>
     <script src="sidePanel.js"></script>
     </>
