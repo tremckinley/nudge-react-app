@@ -1,0 +1,10 @@
+App that periodically shows US Agencies and their descriptions in a pop-up
+
+How I want it to function:
+- A webpage with cards that change over time.
+- Components get rendered on a page
+- "Back-end" is a csv that I have.
+
+how to manage the memory
+
+start with just reading the csv. 
