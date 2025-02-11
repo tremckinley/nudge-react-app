@@ -6,21 +6,23 @@ import FlashCardContainer from './FlashCard/FlashCardContainer'
 function App() {
 
   return (
-    <>
-      <header>
+    <div>
+      <header className='flex justify-center'>
       <h1>
         Nudge's <br />
         Study Material
       </h1>
-      <image id="nudge" src="./icons/nudge.png" />
+      <i className='fa fa-cat'></i>
     </header>
     <section>
       <FlashCardContainer>
         <FlashCard />
+        <FlashCard />
+        <FlashCard />
       </FlashCardContainer>
     </section>
     <script src="sidePanel.js"></script>
-    </>
+    </div>
   )
 }
 
