@@ -1,9 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import FlashCard from './FlashCard/FlashCard'
 import FlashCardContainer from './FlashCard/FlashCardContainer'
+import csvToJson from './resources/csv_to_json'
 
 function App() {
+
+useEffect(() => {
+  document.getElementById('fileInput').addEventListener('change', async (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+      const text = e.target.result;
+      console.log("File content:", text); // Debugging statement
+      try {
+        const data = await csvToJson(text);
+        console.log("Parsed data:", data);
+      } catch (error) {
+        console.error("Error parsing file:", error);
+      }
+    };
+    reader.readAsText(file);
+  }
+});}, []);
 
   return (
     <div>
@@ -13,6 +33,7 @@ function App() {
         Study Material
       </h1>
       <i className='fa fa-cat'></i>
+      <input type='file' id='fileInput'/>
     </header>
     <section>
       <FlashCardContainer>
