@@ -14,12 +14,7 @@ useEffect(() => {
     reader.onload = async function(e) {
       const text = e.target.result;
       console.log("File content:", text); // Debugging statement
-      try {
-        const data = await csvToJson(text);
-        console.log("Parsed data:", data);
-      } catch (error) {
-        console.error("Error parsing file:", error);
-      }
+      
     };
     reader.readAsText(file);
   }
@@ -27,12 +22,14 @@ useEffect(() => {
 
   return (
     <div>
-      <header className='flex justify-center'>
+      <header className='flex flex-col justify-center'>
+        <div className='flex items-center'>
       <h1>
         Nudge's <br />
         Study Material
       </h1>
       <i className='fa fa-cat'></i>
+      </div>
       <input type='file' id='fileInput'/>
     </header>
     <section>
@@ -42,7 +39,6 @@ useEffect(() => {
         <FlashCard />
       </FlashCardContainer>
     </section>
-    <script src="sidePanel.js"></script>
     </div>
   )
 }
