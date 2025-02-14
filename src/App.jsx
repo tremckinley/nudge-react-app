@@ -5,16 +5,17 @@ import FlashCardContainer from './FlashCard/FlashCardContainer'
 import csvToJson from './resources/csv_to_json'
 
 function App() {
-
-useEffect(() => {
+  const [agencyData, setAgencyData] = useState(null);
+  useEffect(() => {
   document.getElementById('fileInput').addEventListener('change', async (event) => {
   const file = event.target.files[0];
   if (file) {
     const reader = new FileReader();
     reader.onload = async function(e) {
       const text = e.target.result;
-      console.log("File content:", text); // Debugging statement
-      
+      //console.log("File content:", text); // Debugging statement
+      setAgencyData(text.split('\n').map(row => row.split(',')));
+      console.log(agencyData);
     };
     reader.readAsText(file);
   }
@@ -34,7 +35,7 @@ useEffect(() => {
     </header>
     <section>
       <FlashCardContainer>
-        <FlashCard />
+        <FlashCard AName={agencyData ? agencyData[1][2] : "Name"} ADesc={agencyData ? agencyData[1][3] : "Desc"}/>
         <FlashCard />
         <FlashCard />
       </FlashCardContainer>
