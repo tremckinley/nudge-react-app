@@ -11,7 +11,7 @@ div.ticker {
 
   }
   h2 {
-    font-size: 20px;
+    font-size: 18px;
     font-family: "Arial", sans-serif;
     font-weight: 800;
     color: indigo;
@@ -27,6 +27,6 @@ div.ticker {
     text-align: center;
   }
   hr {
-    width: 90%;
-    border: 1px solid indigo;
+    width: 50%;
+    border: 1px solid black;
   }

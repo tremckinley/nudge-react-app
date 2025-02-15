@@ -1,16 +1,13 @@
 import "./layout.css"
-import { useEffect, useState } from "react"
 
 
 export default function FlashCard(props) {
     const { AName, ADesc } = props
     
-
-
     return (
-        <div className="ticker border my-2 w-48">
+        <div className="ticker border my-2 ">
             <h2 id="agencyName" className="">{props.AName}</h2>
-            <hr></hr>
+            <hr className="my-2"></hr>
             <p id="agencyDescription">{props.ADesc}</p>
         </div>
     )

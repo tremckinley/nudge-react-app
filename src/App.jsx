@@ -5,21 +5,55 @@ import FlashCardContainer from './FlashCard/FlashCardContainer'
 import csvToJson from './resources/csv_to_json'
 
 function App() {
-  const [agencyData, setAgencyData] = useState(null);
-  useEffect(() => {
-  document.getElementById('fileInput').addEventListener('change', async (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-      const text = e.target.result;
-      //console.log("File content:", text); // Debugging statement
-      setAgencyData(text.split('\n').map(row => row.split(',')));
-      console.log(agencyData);
-    };
-    reader.readAsText(file);
+  const [agencyData, setAgencyData] = useState([]);
+  const [cardIndex, setCardIndex] = useState(1)
+
+  const setFlashCards = () => {
+    const cards = [];
+    if (agencyData.length === 0) {
+      return cards;
+    }
+    for (let index = cardIndex; index < (cardIndex + 3); index++) {
+      cards.push(
+        <FlashCard key={index} AName={agencyData[index][2]} ADesc={agencyData[index][3]} />
+      );
+    }
+    return cards;
   }
-});}, []);
+
+  const handleLeftClick = () => {
+    if (cardIndex > 0) {
+      setCardIndex(cardIndex - 1);
+    }
+  }
+
+  const handleRightClick = () => {
+    if (cardIndex < agencyData.length - 3) {
+      setCardIndex(cardIndex + 1);
+    }
+  }
+
+  useEffect(() => {
+    const savedData = localStorage.getItem('agencyData');
+    if (savedData) {
+      setAgencyData(JSON.parse(savedData));
+    }
+
+    document.getElementById('fileInput').addEventListener('change', async (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+          const text = e.target.result;
+          const pulledList = text.split('\n').map(row => row.split(','));
+          const dataToSave = pulledList.slice(1, pulledList.length);
+          setAgencyData(dataToSave);
+          localStorage.setItem('agencyData', JSON.stringify(dataToSave));
+        };
+        reader.readAsText(file);
+      }
+    });
+  }, []);
 
   return (
     <div>
@@ -34,10 +68,8 @@ function App() {
       <input type='file' id='fileInput'/>
     </header>
     <section>
-      <FlashCardContainer>
-        <FlashCard AName={agencyData ? agencyData[1][2] : "Name"} ADesc={agencyData ? agencyData[1][3] : "Desc"}/>
-        <FlashCard />
-        <FlashCard />
+      <FlashCardContainer handleLeftClick={handleLeftClick} handleRightClick={handleRightClick}>
+        {setFlashCards()}
       </FlashCardContainer>
     </section>
     </div>
