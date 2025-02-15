@@ -21,15 +21,32 @@ function App() {
     return cards;
   }
 
-  const handleLeftClick = () => {
-    if (cardIndex > 0) {
-      setCardIndex(cardIndex - 1);
+  const handleLeftClick = (fast=false) => {
+    let speed = 1;
+    fast ? speed = 3 : speed = 1;
+    if (!fast && cardIndex > 0) {
+      setCardIndex(cardIndex - speed);
+    } 
+    else if (fast && cardIndex > 2) {
+      setCardIndex(cardIndex - speed);
+    }
+    else {
+      setCardIndex(0);
     }
   }
 
-  const handleRightClick = () => {
-    if (cardIndex < agencyData.length - 3) {
+  const handleRightClick = (fast=false) => {
+    let speed = 1;
+    fast ? speed = 3 : speed = 1;
+    if (!fast && cardIndex < agencyData.length - speed) {
       setCardIndex(cardIndex + 1);
+    }
+    else if (fast && cardIndex < agencyData.length - 3) {
+      console.log('fast right click')
+      setCardIndex(cardIndex + speed);
+    }
+    else {
+      setCardIndex(agencyData.length - 1);
     }
   }
 
@@ -53,6 +70,12 @@ function App() {
         reader.readAsText(file);
       }
     });
+
+    const interval = setInterval(() => {
+      setCardIndex(cardIndex + 3);
+    }, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
