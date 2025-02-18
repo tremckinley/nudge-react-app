@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import FlashCard from './FlashCard/FlashCard'
 import FlashCardContainer from './FlashCard/FlashCardContainer'
-import csvToJson from './resources/csv_to_json'
 
 function App() {
   const [agencyData, setAgencyData] = useState([]);
@@ -72,8 +71,9 @@ function App() {
     });
 
     const interval = setInterval(() => {
+      console.log('interval')
       setCardIndex(cardIndex + 3);
-    }, 10000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
