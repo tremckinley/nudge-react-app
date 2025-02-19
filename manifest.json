@@ -1,40 +1,21 @@
 {
   "manifest_version": 3,
-  "name": "Nudge Study Buddy",
+  "name": "Nudge, the Study Buddy",
   "version": "1.0",
-  "description": "Periodic study reminders while browsing",
+  "description": "A study buddy extension to help you stay focused.",
   "icons": {
-    "16": "./public/icons/nudge.png",
-    "32": "./public/icons/nudge.png",
-    "48": "./public/icons/nudge48.png",
-    "128": "./public/icons/nudge128.png"
+    "16": "./icons.icon16.png",
+    "48": "./icons/icon48.png",
+    "128": "./icons/icon128.png"
   },
-
   "permissions": [
-    "storage",
-    "tabs",
-    "alarms",
-    "webNavigation",
     "activeTab",
-    "notifications",
-    "sidePanel",
-    "contextMenus"
+    "storage"
   ],
-
-  "host_permissions": ["http://*/*", "https://*/*"],
-
   "action": {
-    "default_title": "View/Edit Nudge's Study Guide",
-
-    "default_icon": {
-      "16": "./public/icons/nudge.png",
-      "32": "./public/icons/nudge.png",
-      "48": "./public/icons/nudge48.png",
-      "128": "./public/icons/nudge128.png"
-    }
+    "default_popup": "./index.html"
   },
-
-  "side_panel": {
-    "default_path": "./index.html"
+  "background": {
+    "service_worker": "./background.js"
   }
 }
