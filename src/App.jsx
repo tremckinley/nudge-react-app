@@ -87,7 +87,7 @@ function App() {
   
 
   return (
-    <div>
+    <div className='max-w-4xl mx-auto'>
       <header className='flex flex-col justify-center'>
         <div className='flex items-center'>
       <h1>
