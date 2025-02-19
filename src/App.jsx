@@ -6,6 +6,7 @@ import FlashCardContainer from './FlashCard/FlashCardContainer'
 function App() {
   const [agencyData, setAgencyData] = useState([]);
   const [cardIndex, setCardIndex] = useState(1)
+  const [paused, setPaused] = useState(false);
 
   const setFlashCards = () => {
     const cards = [];
@@ -49,6 +50,10 @@ function App() {
     }
   }
 
+  const handlePause = () => {
+    setPaused(!paused);
+  }
+
   useEffect(() => {
     const savedData = localStorage.getItem('agencyData');
     if (savedData) {
@@ -70,13 +75,16 @@ function App() {
       }
     });
 
+    if (paused === false) {
     const interval = setInterval(() => {
       console.log('interval')
       setCardIndex(cardIndex + 3);
-    }, 3000);
+    }, 10000);
 
     return () => clearInterval(interval);
-  }, []);
+    }
+  }, [cardIndex, paused]);
+  
 
   return (
     <div>
@@ -91,7 +99,7 @@ function App() {
       <input type='file' id='fileInput'/>
     </header>
     <section>
-      <FlashCardContainer handleLeftClick={handleLeftClick} handleRightClick={handleRightClick}>
+      <FlashCardContainer handleLeftClick={handleLeftClick} handleRightClick={handleRightClick} handlePause={handlePause} paused={paused}>
         {setFlashCards()}
       </FlashCardContainer>
     </section>
