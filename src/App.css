@@ -13,18 +13,19 @@ body {
     font-weight: 100;
     color: indigo;
     text-align: left;
+    margin-bottom: 10px;
   }
-  #nudge {
-    border-radius: 100px;
-    margin: 0 auto;
-    height: 80px;
-  }
+
   header {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    
-    
+       
+  }
+
+  input::file-selector-button {
+    font-weight: bold;
+    color: indigo;
   }
 
 

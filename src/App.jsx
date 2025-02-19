@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Image } from 'react'
 import './App.css'
 import FlashCard from './FlashCard/FlashCard'
 import FlashCardContainer from './FlashCard/FlashCardContainer'
@@ -91,12 +91,10 @@ function App() {
       <header className='flex flex-col justify-center'>
         <div className='flex items-center'>
       <h1>
-        Nudge's <br />
-        Study Material
+        Nudge's Study Material
       </h1>
-      <i className='fa fa-cat'></i>
       </div>
-      <input type='file' id='fileInput'/>
+      <input type='file' id='fileInput' className='border border-[indigo] p-2 rounded bg-white'/>
     </header>
     <section>
       <FlashCardContainer handleLeftClick={handleLeftClick} handleRightClick={handleRightClick} handlePause={handlePause} paused={paused}>
