@@ -5,29 +5,20 @@
   "description": "A study buddy extension to help you stay focused.",
   
   "permissions": [
+    "storage",
+    "tabs",
+    "alarms",
+    "webNavigation",
     "activeTab",
-    "storage"
+    "notifications",
+    "sidePanel",
+    "contextMenus"
   ],
+
+  "host_permissions": ["http://*/*", "https://*/*"],
+
   "side_panel": {
     "default_path": "index.html"
-  },
-  "action": {
-    "default_popup": "./index.html",
-    "default_icon": {
-      "16": "images/icon16.png",
-      "48": "images/icon48.png",
-      "128": "images/icon128.png"
-    }
-  },
-  "background": {
-    "service_worker": "./background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"], 
-      "js": ["content.js"],
-      "css": ["content.css"]
-    }
-  ]
+  }
 
 }
