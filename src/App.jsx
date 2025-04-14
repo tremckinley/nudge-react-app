@@ -87,14 +87,14 @@ function App() {
   
 
   return (
-    <div className='max-w-4xl mx-auto'>
+    <div className='max-w-4xl mx-auto border'>
       <header className='flex flex-col justify-center'>
         <div className='flex items-center'>
       <h1>
         Nudge's Study Material
       </h1>
       </div>
-      <input type='file' id='fileInput' className='border border-[indigo] p-2 rounded bg-white'/>
+      <input type='file' id='fileInput' className='border border-[indigo] max-w-[90%] p-2 rounded bg-white'/>
     </header>
     <section>
       <FlashCardContainer handleLeftClick={handleLeftClick} handleRightClick={handleRightClick} handlePause={handlePause} paused={paused}>
