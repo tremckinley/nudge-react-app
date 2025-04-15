@@ -1,0 +1,7 @@
+Change File Handler when something is in memory
+Keep index in memory
+Hover state for buttons
+Put logo in sidebar
+Maintain height
+Make speed changeable
+Add dropdown menu (speed, clear)
