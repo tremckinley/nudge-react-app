@@ -1,3 +1,6 @@
+@import "tailwindcss";
+
+
 body {
     padding: 10px;
     background-color: lavender;
@@ -5,51 +8,24 @@ body {
   }
   
   h1 {
-    font-size: 30px;
+    font-size: 24px;
     font-family: "Bagel Fat One", sans-serif;
     font-weight: 100;
     color: indigo;
     text-align: left;
+    margin-bottom: 10px;
   }
-  #nudge {
-    border-radius: 100px;
-    margin: 0 auto;
-    height: 80px;
-  }
+
   header {
     display: flex;
     align-items: center;
+    justify-content: space-around;
+       
   }
-  div.contain {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    width: 80%;
-    height: 80%;
-  }
-  h2 {
-    font-size: 20px;
-    font-family: "Arial", sans-serif;
-    font-weight: 800;
+
+  input::file-selector-button {
+    font-weight: bold;
     color: indigo;
-    text-align: center;
-    margin-bottom: 0;
-    width: 90%;
   }
-  p {
-    font-size: 16px;
-    font-family: sans-serif;
-    font-weight: 100;
-    color: black;
-    text-align: center;
-  }
-  hr {
-    width: 90%;
-    border: 1px solid indigo;
-  }
+
+

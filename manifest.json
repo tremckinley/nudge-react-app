@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Nudge, the Study Buddy",
+  "version": "1.0",
+  "description": "A study buddy extension to help you stay focused.",
+  
+  "permissions": [
+    "storage",
+    "tabs",
+    "alarms",
+    "webNavigation",
+    "activeTab",
+    "notifications",
+    "sidePanel",
+    "contextMenus"
+  ],
+
+  "host_permissions": ["http://*/*", "https://*/*"],
+
+  "side_panel": {
+    "default_path": "index.html"
+  }
+
+}
