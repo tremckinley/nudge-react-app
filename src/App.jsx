@@ -2,6 +2,7 @@ import { useState, useEffect, Image } from 'react'
 import './App.css'
 import FlashCard from './FlashCard/FlashCard'
 import FlashCardContainer from './FlashCard/FlashCardContainer'
+import MenuBar from './MenuBar/MenuBar';
 
 function App() {
   const [agencyData, setAgencyData] = useState([]);
@@ -88,12 +89,8 @@ function App() {
 
   return (
     <div className='max-w-4xl mx-auto border'>
-      <header className='flex flex-col justify-center'>
-        <div className='flex items-center'>
-      <h1>
-        Nudge's Study Material
-      </h1>
-      </div>
+      <header className='flex flex-col justify-center items-center'>
+        <MenuBar/>      
       <input type='file' id='fileInput' className='border border-[indigo] max-w-[90%] p-2 rounded bg-white'/>
     </header>
     <section>
