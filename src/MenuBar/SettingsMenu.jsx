@@ -1,8 +1,7 @@
 import { useState } from "react";
 
 export default function SettingsMenu(props) {
-  const {open, setOpen} = props;
-
+  const {open, setOpen, handleSpeed, speed} = props;
   return (
     <>
     {open && (
@@ -25,10 +24,10 @@ export default function SettingsMenu(props) {
                 Cycle Speed:
               </label>
               <button
-                onClick={() => console.log("Cycle speed clicked")}
+                onClick={() => handleSpeed()}
                 className="w-[50%] text-sm bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
               >
-                {"{slow}"}
+                {speed}
               </button>
             </div>
           </div>

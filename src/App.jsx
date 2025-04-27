@@ -1,4 +1,4 @@
-import { useState, useEffect, Image } from 'react'
+import { useState, useEffect, Image, useContext } from 'react'
 import './App.css'
 import FlashCard from './FlashCard/FlashCard'
 import FlashCardContainer from './FlashCard/FlashCardContainer'
@@ -8,7 +8,7 @@ function App() {
   const [agencyData, setAgencyData] = useState([]);
   const [cardIndex, setCardIndex] = useState(1)
   const [paused, setPaused] = useState(false);
-
+  const [speed, setSpeed] = useState('normal');
   const setFlashCards = () => {
     const cards = [];
     if (agencyData.length === 0) {
@@ -55,6 +55,19 @@ function App() {
     setPaused(!paused);
   }
 
+  const handleSpeed = () => {
+    const speeds = ['slow', 'normal', 'fast'];
+    let index = speeds.indexOf(speed);
+    if (index == speeds.length - 1){
+      console.log(speed)
+      setSpeed(speeds[0]);
+    }
+    else {
+      console.log(speed)
+      setSpeed(speeds[index + 1]);
+    }
+  }
+
   useEffect(() => {
     const savedData = localStorage.getItem('agencyData');
     if (savedData) {
@@ -77,20 +90,22 @@ function App() {
     });
 
     if (paused === false) {
+    const intervalTime = speed === 'fast' ? 5000 : speed === 'normal' ? 10000 : 15000;
     const interval = setInterval(() => {
       console.log('interval')
       setCardIndex(cardIndex + 3);
-    }, 10000);
+    }, intervalTime);
 
     return () => clearInterval(interval);
     }
   }, [cardIndex, paused]);
-  
+
 
   return (
+    
     <div className='max-w-4xl mx-auto border'>
       <header className='flex flex-col justify-center items-center'>
-        <MenuBar/>      
+        <MenuBar handleSpeed={handleSpeed} speed={speed}/>      
       <input type='file' id='fileInput' className='border border-[indigo] max-w-[90%] p-2 rounded bg-white'/>
     </header>
     <section>
@@ -99,7 +114,8 @@ function App() {
       </FlashCardContainer>
     </section>
     </div>
+  
   )
 }
 
-export default App
+export default App;
