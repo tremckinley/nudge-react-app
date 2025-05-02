@@ -26,3 +26,11 @@ div.ticker {
   hr {
     width: 50%;
   }
+
+  button {
+    cursor: pointer;
+  }
+
+  button:hover {
+    color: grey
+  }

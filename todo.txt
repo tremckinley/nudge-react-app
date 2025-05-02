@@ -1,7 +1,7 @@
-Change File Handler when something is in memory
-Keep index in memory
+Back end goals:
+    Change File Handler when something is in memory
+    Keep index in memory
+    Clear memory capability
+    
 Hover state for buttons
 Put logo in sidebar
-Maintain height
-Make speed changeable
-Add dropdown menu (speed, clear)
