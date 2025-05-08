@@ -4,6 +4,8 @@ import FlashCard from './FlashCard/FlashCard'
 import FlashCardContainer from './FlashCard/FlashCardContainer'
 import MenuBar from './MenuBar/MenuBar';
 
+const API_URL = 'http://localhost:3001/api';
+
 function App() {
   const [agencyData, setAgencyData] = useState([]);
   const [cardIndex, setCardIndex] = useState(1)
@@ -69,37 +71,56 @@ function App() {
   }
 
   useEffect(() => {
-    const savedData = localStorage.getItem('agencyData');
-    if (savedData) {
-      setAgencyData(JSON.parse(savedData));
-    }
+    // Fetch initial data
+    fetchAgencyData();
 
     document.getElementById('fileInput').addEventListener('change', async (event) => {
       const file = event.target.files[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = async function(e) {
-          const text = e.target.result;
-          const pulledList = text.split('\n').map(row => row.split(','));
-          const dataToSave = pulledList.slice(1, pulledList.length);
-          setAgencyData(dataToSave);
-          localStorage.setItem('agencyData', JSON.stringify(dataToSave));
-        };
-        reader.readAsText(file);
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+          const response = await fetch(`${API_URL}/upload`, {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error('Upload failed');
+          }
+
+          // Fetch updated data after upload
+          fetchAgencyData();
+        } catch (error) {
+          console.error('Error uploading file:', error);
+        }
       }
     });
 
     if (paused === false) {
-    const intervalTime = speed === 'fast' ? 5000 : speed === 'normal' ? 10000 : 15000;
-    const interval = setInterval(() => {
-      console.log('interval')
-      setCardIndex(cardIndex + 3);
-    }, intervalTime);
+      const intervalTime = speed === 'fast' ? 5000 : speed === 'normal' ? 10000 : 15000;
+      const interval = setInterval(() => {
+        console.log('interval')
+        setCardIndex(cardIndex + 3);
+      }, intervalTime);
 
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
     }
   }, [cardIndex, paused]);
 
+  const fetchAgencyData = async () => {
+    try {
+      const response = await fetch(`${API_URL}/agency-data`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const data = await response.json();
+      setAgencyData(data);
+    } catch (error) {
+      console.error('Error fetching agency data:', error);
+    }
+  };
 
   return (
     
