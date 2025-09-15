@@ -1,15 +1,17 @@
-import { useState, useEffect, Image, useContext } from 'react'
+import { useState, useEffect, Image, useContext, useRef } from 'react'
 import './App.css'
 import FlashCard from './FlashCard/FlashCard'
 import FlashCardContainer from './FlashCard/FlashCardContainer'
 import MenuBar from './MenuBar/MenuBar';
-import { apiCall } from './services/apiCall';
+import { fetchData, uploadData } from './services/apiCall';
 
 function App() {
   const [agencyData, setAgencyData] = useState([]);
   const [cardIndex, setCardIndex] = useState(0)
   const [paused, setPaused] = useState(true);
   const [speed, setSpeed] = useState('normal');
+  const fileInputRef = useRef(null);
+
   const setFlashCards = () => {
     const cards = [];
     if (agencyData.length === 0) {
@@ -18,19 +20,19 @@ function App() {
     for (let index = cardIndex; index < cardIndex + 3; index++) {
       if (agencyData[index]) { // Only add if agencyData[index] exists
         cards.push(
-          <FlashCard key={index} AName={agencyData[index]["Agency Name"]} ADesc={agencyData[index]["Agency Description"]} />
+          <FlashCard key={index} AName={agencyData[index]["Name"]} ADesc={agencyData[index]["Description"]} />
         );
       }
     }
     return cards;
   }
 
-  const handleLeftClick = (fast=false) => {
+  const handleLeftClick = (fast = false) => {
     let speed = 1;
     fast ? speed = 3 : speed = 1;
     if (!fast && cardIndex > 0) {
       setCardIndex(cardIndex - speed);
-    } 
+    }
     else if (fast && cardIndex > 2) {
       setCardIndex(cardIndex - speed);
     }
@@ -39,7 +41,7 @@ function App() {
     }
   }
 
-  const handleRightClick = (fast=false) => {
+  const handleRightClick = (fast = false) => {
     let speed = 1;
     fast ? speed = 3 : speed = 1;
     if (!fast && cardIndex < agencyData.length - speed) {
@@ -61,7 +63,7 @@ function App() {
   const handleSpeed = () => {
     const speeds = ['slow', 'normal', 'fast'];
     let index = speeds.indexOf(speed);
-    if (index == speeds.length - 1){
+    if (index == speeds.length - 1) {
       console.log(speed)
       setSpeed(speeds[0]);
     }
@@ -71,57 +73,58 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    const savedData = localStorage.getItem('agencyData');
-    async function fetchData() { 
-      const data = await apiCall();
-      setAgencyData(data);
-      console.log(agencyData)
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = async function (e) {
+        const csvText = e.target.result;
+        await uploadData(csvText);
+        const updatedData = await fetchData();
+        setAgencyData(Array.isArray(updatedData) ? [...updatedData] : []); // Ensure new array
+      };
+      reader.readAsText(file);
     }
-    fetchData()
+  };
 
-    // document.getElementById('fileInput').addEventListener('change', async (event) => {
-    //   const file = event.target.files[0];
-    //   if (file) {
-    //     const reader = new FileReader();
-    //     reader.onload = async function(e) {
-    //       const text = e.target.result;
-    //       const pulledList = text.split('\n').map(row => row.split(','));
-    //       const dataToSave = pulledList.slice(1, pulledList.length);
-    //       setAgencyData(dataToSave);
-    //       localStorage.setItem('agencyData', JSON.stringify(dataToSave));
-    //     };
-    //     reader.readAsText(file);
-    //   }
-    // });
+  async function getData() {
+    const data = await fetchData();
+    setAgencyData(data);
+  }
+
+  useEffect(() => {
+    getData();
 
     if (paused === false) {
-    const intervalTime = speed === 'fast' ? 5000 : speed === 'normal' ? 10000 : 15000;
-    const interval = setInterval(() => {
-      console.log('interval')
-      setCardIndex(cardIndex + 3);
-    }, intervalTime);
+      const intervalTime = speed === 'fast' ? 5000 : speed === 'normal' ? 10000 : 15000;
+      const interval = setInterval(() => {
+        setCardIndex(cardIndex + 3);
+      }, intervalTime);
 
-    return () => clearInterval(interval);
+      return () => clearInterval(interval);
     }
-  }, [cardIndex, paused]);
+  }, [cardIndex, paused, agencyData]);
 
 
   return (
-    
+
     <div className='max-w-4xl mx-auto border min-h-[98vh]'>
       <header className='flex flex-col justify-center items-center'>
-        <MenuBar handleSpeed={handleSpeed} speed={speed}/>      
-      <input type='file' id='fileInput' className='border max-w-[90%] p-2 rounded bg-white'/>
-    </header>
-    <button onClick={apiCall}>Make API call</button>
-    <section>
-      <FlashCardContainer handleLeftClick={handleLeftClick} handleRightClick={handleRightClick} handlePause={handlePause} paused={paused}>
-        {setFlashCards()}
-      </FlashCardContainer>
-    </section>
+        <MenuBar handleSpeed={handleSpeed} speed={speed} />
+        <input
+          type='file'
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          className='border max-w-[90%] p-2 rounded bg-white'
+        />
+      </header>
+      <section>
+        <FlashCardContainer handleLeftClick={handleLeftClick} handleRightClick={handleRightClick} handlePause={handlePause} paused={paused}>
+          {setFlashCards()}
+        </FlashCardContainer>
+      </section>
     </div>
-  
+
   )
 }
 
