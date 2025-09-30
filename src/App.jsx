@@ -3,7 +3,7 @@ import './App.css'
 import FlashCard from './FlashCard/FlashCard'
 import FlashCardContainer from './FlashCard/FlashCardContainer'
 import MenuBar from './MenuBar/MenuBar';
-import { fetchData, uploadData } from './services/apiCall';
+import { fetchData, uploadData, addUser } from './services/apiCall';
 
 function App() {
   const [agencyData, setAgencyData] = useState([]);
@@ -73,6 +73,11 @@ function App() {
     }
   }
 
+  async function getData() {
+    const data = await fetchData();
+    setAgencyData(data);
+  }
+  
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -87,10 +92,6 @@ function App() {
     }
   };
 
-  async function getData() {
-    const data = await fetchData();
-    setAgencyData(data);
-  }
 
   useEffect(() => {
     getData();
@@ -122,6 +123,7 @@ function App() {
         <FlashCardContainer handleLeftClick={handleLeftClick} handleRightClick={handleRightClick} handlePause={handlePause} paused={paused}>
           {setFlashCards()}
         </FlashCardContainer>
+        <button onClick={() => addUser({name: "Jane Doe", email: "jane.doe@example.com", password: "password"})}>Add User</button>
       </section>
     </div>
 
