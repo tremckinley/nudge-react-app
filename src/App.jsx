@@ -2,13 +2,15 @@ import { useState, useEffect, Image, useContext } from 'react'
 import './App.css'
 import FlashCard from './FlashCard/FlashCard'
 import FlashCardContainer from './FlashCard/FlashCardContainer'
-import MenuBar from './MenuBar/MenuBar';
+import MenuBar from './MenuBar/MenuBar'
+import AddFactForm from './AddFactForm/AddFactForm'
 
 function App() {
   const [agencyData, setAgencyData] = useState([]);
   const [cardIndex, setCardIndex] = useState(1)
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState('normal');
+  const [currentPage, setCurrentPage] = useState('main'); // 'main' or 'addFact'
   const setFlashCards = () => {
     const cards = [];
     if (agencyData.length === 0) {
@@ -68,6 +70,21 @@ function App() {
     }
   }
 
+  const handleAddFact = (newFact) => {
+    const updatedData = [...agencyData, newFact];
+    setAgencyData(updatedData);
+    localStorage.setItem('agencyData', JSON.stringify(updatedData));
+    setCurrentPage('main');
+  }
+
+  const handleNavigateToAddFact = () => {
+    setCurrentPage('addFact');
+  }
+
+  const handleBackToMain = () => {
+    setCurrentPage('main');
+  }
+
   useEffect(() => {
     const savedData = localStorage.getItem('agencyData');
     if (savedData) {
@@ -101,11 +118,26 @@ function App() {
   }, [cardIndex, paused]);
 
 
+  if (currentPage === 'addFact') {
+    return (
+      <div className='max-w-4xl mx-auto border'>
+        <AddFactForm 
+          onBack={handleBackToMain}
+          onAddFact={handleAddFact}
+        />
+      </div>
+    );
+  }
+
   return (
     
     <div className='max-w-4xl mx-auto border'>
       <header className='flex flex-col justify-center items-center'>
-        <MenuBar handleSpeed={handleSpeed} speed={speed}/>      
+        <MenuBar 
+          handleSpeed={handleSpeed} 
+          speed={speed}
+          onAddFact={handleNavigateToAddFact}
+        />      
       <input type='file' id='fileInput' className='border border-[indigo] max-w-[90%] p-2 rounded bg-white'/>
     </header>
     <section>
